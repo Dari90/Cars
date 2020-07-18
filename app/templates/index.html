@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <header >
+        <nav class="head navbar navbar-expand-lg bg-dark">
+            <div class="collapse navbar-collapse">
+            <form class="form-group d-flex my-2" method="GET" action="{% url 'app:car-list' %}">
+                <input class="form-control mx-sm-3" style="min-width:150px;max-width:300px;" type="text" placeholder="Поиск" aria-label="Search" name="search">
+                <button class="btn btn-info" type="submit" name="Search">Найти</button>
+            </form>
+            </div>
+        </nav>
+    </header>
+
+    <div class="col-12 my-3">
+        <div class="row">
+            {% for cars in object_list %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card shadow p-1 bg-info rounded">
+                    <div style="position:relative;padding-bottom:75%;">
+                        <img src="{{ cars.photo.url }}" class="w-100 h-100" style="position:absolute;top:0;left:0;object-fit:cover;" alt="">
+                    </div>
+                    <div class="card-body text-white">
+                        <h4 class="card-title font-weight-bold">{{ cars.manufacturer }}</h4>
+                        <p class="card-title"><span class="font-weight-bold">Model:</span> {{ cars.model }}</p>
+                        <p class="card-title"><span class="font-weight-bold">Release year:</span> {{ cars.release_year }}</p>
+                        <p class="card-title"><span class="font-weight-bold">Transmission:  </span>
+                        {%if cars.transmission == 1 %}
+                            Механика
+                        {% elif cars.transmission == 2 %}
+                            Автомат
+                        {% elif cars.transmission == 3 %}
+                            Робот
+                        {% endif %}
+                        </p>
+                        <p class="card-title"><span class="font-weight-bold">Color:</span> {{ cars.colors }}</p>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
